@@ -339,17 +339,6 @@ export default function LivePage() {
               <div className="live-player-col" style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem', minWidth: 0, height: '100%' }}>
                 {/* Memoized Multi-Stream Arena with Audio Focus */}
                 <StreamArena config={liveConfig} />
-
-                {/* Scrolling Kill-Feed Ticker */}
-                <div className="killfeed-strip" id="killFeedStrip">
-                  {(liveMatch.killfeed && liveMatch.killfeed.length > 0 ? liveMatch.killfeed : stage.killfeed).map((kf, i) => (
-                    <div key={i} className="kf-item">
-                      <span className="kf-killer">{kf.k}</span>{' '}
-                      <span className="kf-weapon">{kf.w}</span>{' '}
-                      <span className="kf-victim">{kf.v}</span>
-                    </div>
-                  ))}
-                </div>
               </div>
 
               {/* Right Column: Rank-Tiered Live Chat Panel */}
@@ -433,7 +422,7 @@ export default function LivePage() {
                   className="btn-ink-outline"
                   style={{ padding: '0.65rem 1.4rem', fontSize: '0.8rem' }}
                 >
-                  Full Events &amp; Standings &nbsp;&nearr;
+                  Full Events &amp; Standings ↗
                 </Link>
               </div>
 
@@ -487,10 +476,6 @@ export default function LivePage() {
                     <h3 className="vod-title" style={{ fontSize: '1.5rem', color: '#fff' }}>
                       BGMI SCRIM | FRIDAY-FUN NIGHT | VRGC ESPORTS TEAM
                     </h3>
-                    <div className="vod-meta">
-                      <span style={{ color: '#ff4d6d' }}>BGMI &bull; ASCENT</span>
-                      <span>OCT 02, 2026</span>
-                    </div>
                   </div>
                 </a>
 
@@ -519,10 +504,6 @@ export default function LivePage() {
                     <h3 className="vod-title" style={{ fontSize: '1.5rem', color: '#fff' }}>
                       HPL VALORANT Trials LIVE | Hostel Premier League | VIT Bhopal Esports | Group -1
                     </h3>
-                    <div className="vod-meta">
-                      <span style={{ color: '#ff4d6d' }}>VALORANT &bull; ERANGEL</span>
-                      <span>AUG 23, 2026</span>
-                    </div>
                   </div>
                 </a>
 
@@ -552,10 +533,6 @@ export default function LivePage() {
                     <h3 className="vod-title" style={{ fontSize: '1.5rem', color: '#fff' }}>
                       HPL BGMI Trials LIVE | Hostel Premier League | VIT Bhopal Esports
                     </h3>
-                    <div className="vod-meta">
-                      <span style={{ color: '#ff4d6d' }}>BGMI &bull; TRIALS</span>
-                      <span>NOV 25, 2024</span>
-                    </div>
                   </div>
                 </a>
 
@@ -584,10 +561,6 @@ export default function LivePage() {
                     <h3 className="vod-title" style={{ fontSize: '1.5rem', color: '#fff' }}>
                       HPL FREE FIRE Trials LIVE | Hostel Premier League | VIT Bhopal Esports
                     </h3>
-                    <div className="vod-meta">
-                      <span style={{ color: '#ff4d6d' }}>FREE FIRE &bull; TRIALS </span>
-                      <span>AUG 21, 2026</span>
-                    </div>
                   </div>
                 </a>
 
@@ -616,10 +589,6 @@ export default function LivePage() {
                     <h3 className="vod-title" style={{ fontSize: '1.5rem', color: '#fff' }}>
                       VRGC GAMERS ASYLUM 6.0 || FINALS
                     </h3>
-                    <div className="vod-meta">
-                      <span style={{ color: '#ff4d6d' }}>ASYLUM &bull; FINALS</span>
-                      <span>FEB 28, 2026</span>
-                    </div>
                   </div>
                 </a>
 
@@ -648,10 +617,6 @@ export default function LivePage() {
                     <h3 className="vod-title" style={{ fontSize: '1.5rem', color: '#fff' }}>
                       VRGC GAMERS ASYLUM 6.0 || Semi FINALS
                     </h3>
-                    <div className="vod-meta">
-                      <span style={{ color: '#ff4d6d' }}>ASYLUM &bull; SEMI-FINALS</span>
-                      <span>FEB 27, 2026</span>
-                    </div>
                   </div>
                 </a>
               </div>
@@ -675,84 +640,180 @@ export default function LivePage() {
                 THE CASTER DESK
               </ScrollFloat>
 
+              {/* Additional Four Casters */}
               <div
-                className="circular-team-grid"
+                className="additional-casters"
                 style={{
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-                  gap: '2rem',
-                  maxWidth: '960px',
-                  margin: '0 auto',
+                  maxWidth: '1200px',
+                  margin: '4rem auto 2rem',
+                  width: '100%',
                 }}
               >
-                <div className="circ-member-card">
-                  <div className="circ-avatar-wrap">
-                    <div className="circ-ring" style={{ borderColor: 'rgba(239,68,68,0.4)' }}></div>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/event_trophy.jpg"
-                      alt="Caster Aether"
-                      className="circ-avatar"
-                      style={{ borderColor: '#ef4444' }}
-                    />
+                {/* BGMI Casters */}
+                <div className="caster-category">
+                  <h2
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
+                      color: '#fff',
+                      lineHeight: 1,
+                      textAlign: 'center',
+                      marginBottom: '2rem',
+                    }}
+                  >
+                    BGMI CASTERS
+                  </h2>
+
+                  <div className="caster-pair-grid">
+                    {/* Mann Sharma */}
+                    <div className="circ-member-card">
+                      <div className="circ-avatar-wrap">
+                        <div
+                          className="circ-ring"
+                          style={{ borderColor: 'rgba(239,68,68,0.4)' }}
+                        ></div>
+
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/casters/mann.png"
+                          alt="Mann Sharma"
+                          className="circ-avatar"
+                          style={{ borderColor: '#ef4444' }}
+                        />
+                      </div>
+
+                      <h3
+                        className="circ-name"
+                        style={{ color: '#171717', fontSize: '1.3rem' }}
+                      >
+                        MANN SHARMA
+                      </h3>
+
+                      <span
+                        className="circ-role"
+                        style={{ color: '#ff4d6d' }}
+                      >
+                        BGMI Caster
+                      </span>
+                    </div>
+
+                    {/* Uday Deval Chaturvedi */}
+                    <div className="circ-member-card">
+                      <div className="circ-avatar-wrap">
+                        <div
+                          className="circ-ring"
+                          style={{ borderColor: 'rgba(239,68,68,0.4)' }}
+                        ></div>
+
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/casters/uday.png"
+                          alt="Uday Deval Chaturvedi"
+                          className="circ-avatar"
+                          style={{ borderColor: '#ef4444' }}
+                        />
+                      </div>
+
+                      <h3
+                        className="circ-name"
+                        style={{ color: '#171717', fontSize: '1.3rem' }}
+                      >
+                        UDAY DEVAL CHATURVEDI
+                      </h3>
+
+                      <span
+                        className="circ-role"
+                        style={{ color: '#ff4d6d' }}
+                      >
+                        BGMI Caster
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="circ-name" style={{ color: '#fff', fontSize: '1.6rem' }}>
-                    AETHER
-                  </h3>
-                  <span className="circ-role" style={{ color: '#ff4d6d' }}>
-                    Lead Play-by-Play
-                  </span>
-                  <p className="circ-bio" style={{ color: 'var(--white-muted)' }}>
-                    High-energy tactical FPS shoutcaster. Covered over 150 collegiate games with
-                    electric energy.
-                  </p>
                 </div>
 
-                <div className="circ-member-card">
-                  <div className="circ-avatar-wrap">
-                    <div className="circ-ring" style={{ borderColor: 'rgba(239,68,68,0.4)' }}></div>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/hero_purple.jpg"
-                      alt="Caster Vortex"
-                      className="circ-avatar"
-                      style={{ borderColor: '#ef4444' }}
-                    />
-                  </div>
-                  <h3 className="circ-name" style={{ color: '#fff', fontSize: '1.6rem' }}>
-                    VORTEX
-                  </h3>
-                  <span className="circ-role" style={{ color: '#ff4d6d' }}>
-                    Color Analyst
-                  </span>
-                  <p className="circ-bio" style={{ color: 'var(--white-muted)' }}>
-                    Ex-radiant collegiate player breaking down utility timings, eco rounds, and
-                    micro-positioning.
-                  </p>
-                </div>
+                {/* Free Fire Casters */}
+                <div className="caster-category">
+                    <h2
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 'clamp(1.5rem, 3vw, 2.5rem)',
+                      color: '#fff',
+                      lineHeight: 1,
+                      textAlign: 'center',
+                      marginBottom: '2rem',
+                    }}
+                  >
+                    FREE FIRE CASTERS
+                  </h2>
 
-                <div className="circ-member-card">
-                  <div className="circ-avatar-wrap">
-                    <div className="circ-ring" style={{ borderColor: 'rgba(239,68,68,0.4)' }}></div>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src="/vrgc_logo.jpg"
-                      alt="Observer Ghost"
-                      className="circ-avatar"
-                      style={{ borderColor: '#ef4444' }}
-                    />
+                  <div className="caster-pair-grid">
+                    {/* Manan Sharma */}
+                    <div className="circ-member-card">
+                      <div className="circ-avatar-wrap">
+                        <div
+                          className="circ-ring"
+                          style={{ borderColor: 'rgba(239,68,68,0.4)' }}
+                        ></div>
+
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/casters/manan.png"
+                          alt="Manan Sharma"
+                          className="circ-avatar"
+                          style={{ borderColor: '#ef4444' }}
+                        />
+                      </div>
+
+                      <h3
+                        className="circ-name"
+                        style={{ color: '#171717', fontSize: '1.3rem' }}
+                      >
+                        MANAN SHARMA
+                      </h3>
+
+                      <span
+                        className="circ-role"
+                        style={{ color: '#ff4d6d' }}
+                      >
+                        Free Fire Caster
+                      </span>
+                    </div>
+
+                    {/* Divyansh Mishra */}
+                    <div className="circ-member-card">
+                      <div className="circ-avatar-wrap">
+                        <div
+                          className="circ-ring"
+                          style={{ borderColor: 'rgba(239,68,68,0.4)' }}
+                        ></div>
+
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src="/casters/divyansh.png"
+                          alt="Divyansh Mishra"
+                          className="circ-avatar"
+                          style={{ borderColor: '#ef4444' }}
+                        />
+                      </div>
+
+                      <h3
+                        className="circ-name"
+                        style={{ color: '#171717', fontSize: '1.3rem' }}
+                      >
+                        DIVYANSH MISHRA
+                      </h3>
+
+                      <span
+                        className="circ-role"
+                        style={{ color: '#ff4d6d' }}
+                      >
+                        Free Fire Caster
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="circ-name" style={{ color: '#fff', fontSize: '1.6rem' }}>
-                    GHOST
-                  </h3>
-                  <span className="circ-role" style={{ color: '#ff4d6d' }}>
-                    Head Observer
-                  </span>
-                  <p className="circ-bio" style={{ color: 'var(--white-muted)' }}>
-                    Directing in-game cinematic free-cams, instant slow-motion replays, and catching
-                    every entry frag.
-                  </p>
                 </div>
               </div>
+
             </div>
           </div>
         </section>

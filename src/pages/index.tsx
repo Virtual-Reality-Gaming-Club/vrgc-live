@@ -46,7 +46,7 @@ export default function HomePage() {
 
           <div className="ink-hero-actions text-reveal-sub" style={{ transitionDelay: '0.48s' }}>
             <Link href="/events" className="btn-ink-primary">
-              Explore Tournaments &nbsp;&nearr;
+              Explore Tournaments ↗
             </Link>
             <Link href="/about" className="btn-ink-outline">
               Discover Studio &amp; Labs
@@ -109,7 +109,7 @@ export default function HomePage() {
               Whether you are a varsity contender competing for prize pools or an aspiring indie creator building 3D game engines, VRGC offers structured bootcamps, student mentorship, and live tournament arenas.
             </p>
             <Link href="/about" className="btn-ink-explore">
-              EXPLORE STUDIO &amp; RESEARCH &nbsp;&nearr;
+              EXPLORE STUDIO &amp; RESEARCH ↗
             </Link>
           </div>
           <div className="isf-card-media">
@@ -166,7 +166,7 @@ export default function HomePage() {
           </p>
           <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
             <Link href="/events" className="btn-ink-primary" style={{ background: '#fff', color: '#080010' }}>
-              View All Tournaments &nbsp;&nearr;
+              View All Tournaments ↗
             </Link>
             <Link href="/live" className="btn-ink-outline" style={{ borderColor: 'rgba(255,255,255,0.4)', color: '#fff' }}>
               Watch Live Stream
@@ -308,7 +308,7 @@ export default function HomePage() {
 
         <div style={{ marginTop: '3rem', display: 'flex', justifyContent: 'center', gap: '1rem', position: 'relative', zIndex: 2, flexWrap: 'wrap' }}>
           <Link href="/about" className="btn-ink-primary">
-            Meet The Coordinators &nbsp;&nearr;
+            Meet The Coordinators ↗
           </Link>
           <Link href="/community" className="btn-ink-outline">
             Join Club Discord

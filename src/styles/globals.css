@@ -1148,7 +1148,6 @@ img { display: block; max-width: 100%; }
 .play-triangle { width: 0; height: 0; border-top: 10px solid transparent; border-bottom: 10px solid transparent; border-left: 16px solid #fff; margin-left: 5px; }
 .vod-info { padding: 1.5rem; text-align: left; }
 .vod-title { font-family: var(--font-display); font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; line-height: 1.1; font-weight: 600}
-.vod-meta { font-family: var(--font-mono); font-size: 0.75rem; color: var(--white-muted); display: flex; gap: 1rem; }
 /* ----------------------------------------------------
    MOBILE RESPONSIVENESS & HAMBURGER MENU
    ---------------------------------------------------- */
@@ -4033,6 +4032,82 @@ body.page-entering {
   left: 50%;
   margin-left: 0;
   translate: -50% 0;
+}
+
+/* Additional caster sections */
+.additional-casters {
+  width: 100%;
+  padding: 0 1.5rem;
+}
+
+.caster-category {
+  width: 100%;
+  margin-bottom: 4rem;
+}
+
+.caster-pair-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.caster-pair-grid .circ-member-card {
+  width: 100%;
+  min-width: 0;
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .caster-pair-grid {
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .additional-casters {
+    padding: 0 1rem;
+  }
+
+  .caster-category {
+    margin-bottom: 3rem;
+  }
+
+  .caster-pair-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .caster-pair-grid .circ-member-card {
+    padding: 1rem 0.5rem;
+  }
+
+  .caster-pair-grid .circ-name {
+    font-size: 1rem !important;
+  }
+}
+
+/* Subtle zoom animation on caster profile photos */
+.circ-avatar {
+  transition: transform 0.4s ease;
+}
+
+.circ-member-card:hover .circ-avatar {
+  transform: scale(1.08);
+}
+
+.circ-member-card:hover .circ-avatar {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.6));
+}
+
+@media (hover: none) {
+  .circ-member-card:hover .circ-avatar {
+    transform: none;
+    filter: none;
+  }
 }
 
 
