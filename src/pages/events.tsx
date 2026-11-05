@@ -55,7 +55,7 @@ export default function EventsPage() {
               className="btn-ink-primary"
               style={{ minHeight: '46px', display: 'inline-flex', alignItems: 'center' }}
             >
-              Join Discord For Announcements &nbsp;&nearr;
+              Join Discord For Announcements ↗
             </a>
             <Link
               href="/live"
@@ -179,7 +179,7 @@ export default function EventsPage() {
                 className="btn-ink-primary"
                 style={{ minHeight: '44px', display: 'inline-flex', alignItems: 'center' }}
               >
-                Join Discord Server &nbsp;&nearr;
+                Join Discord Server ↗
               </a>
               <Link
                 href="/about"
