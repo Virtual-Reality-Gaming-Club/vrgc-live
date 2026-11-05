@@ -152,7 +152,7 @@ export default function CommunityPage() {
               className="btn-ink-primary"
               style={{ minHeight: '48px', display: 'inline-flex', alignItems: 'center' }}
             >
-              Join Discord Citadel &nbsp;&nearr;
+              Join Discord Citadel ↗
             </a>
             <Link
               href="/"
