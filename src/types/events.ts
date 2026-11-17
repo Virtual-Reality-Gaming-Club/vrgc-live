@@ -99,6 +99,64 @@ export const EVENT_CATEGORY_THEMES: Record<
   },
 };
 
+export const EVENT_STATUS_CONFIG: Record<
+  EventStatus,
+  {
+    label: string;
+    color: string;
+    dotColor: string;
+    bgTint: string;
+    borderTint: string;
+    glow?: string;
+    pulse: boolean;
+    buttonText: string;
+    isActionable: boolean;
+  }
+> = {
+  live: {
+    label: 'LIVE NOW',
+    color: '#ef4444',
+    dotColor: '#ef4444',
+    bgTint: 'rgba(239, 68, 68, 0.15)',
+    borderTint: 'rgba(239, 68, 68, 0.5)',
+    glow: '0 0 10px rgba(239, 68, 68, 0.5)',
+    pulse: true,
+    buttonText: 'Join Event',
+    isActionable: true,
+  },
+  upcoming: {
+    label: 'UPCOMING',
+    color: '#4ade80',
+    dotColor: '#4ade80',
+    bgTint: 'rgba(74, 222, 128, 0.12)',
+    borderTint: 'rgba(74, 222, 128, 0.35)',
+    glow: '0 0 8px rgba(74, 222, 128, 0.3)',
+    pulse: false,
+    buttonText: 'Register Now',
+    isActionable: true,
+  },
+  completed: {
+    label: 'COMPLETED',
+    color: '#94a3b8',
+    dotColor: '#64748b',
+    bgTint: 'rgba(148, 163, 184, 0.1)',
+    borderTint: 'rgba(148, 163, 184, 0.25)',
+    pulse: false,
+    buttonText: 'Concluded',
+    isActionable: false,
+  },
+  cancelled: {
+    label: 'CANCELLED',
+    color: '#f87171',
+    dotColor: '#dc2626',
+    bgTint: 'rgba(239, 68, 68, 0.08)',
+    borderTint: 'rgba(239, 68, 68, 0.25)',
+    pulse: false,
+    buttonText: 'Cancelled',
+    isActionable: false,
+  },
+};
+
 export const MOCK_PUBLIC_EVENTS: ClubEvent[] = [
   {
     id: 'event-valorant-2026',
