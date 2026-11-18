@@ -115,36 +115,7 @@ export default function LivePage() {
     }
   }, [activeMatches, selectedMatchId]);
 
-  const [chatMessages, setChatMessages] = useState<LiveChatMessage[]>([
-    {
-      id: 'msg-1',
-      badge: 'VANGUARD',
-      badgeClass: 'badge-vanguard',
-      sender: 'Parardha:',
-      content: 'Welcome to the Grand Finals everyone! Make some noise in chat!',
-    },
-    {
-      id: 'msg-2',
-      badge: 'VARSITY',
-      badgeClass: 'badge-varsity',
-      sender: 'Aether:',
-      content: 'A-site defense is completely locked down this half!',
-    },
-    {
-      id: 'msg-3',
-      badge: 'CONTENDER',
-      badgeClass: 'badge-contender',
-      sender: 'Krypton:',
-      content: 'THAT FLICK FROM PHANTOM WAS DISGUSTING 🔥🔥🔥',
-    },
-    {
-      id: 'msg-4',
-      badge: 'CADET',
-      badgeClass: 'badge-cadet',
-      sender: 'Rookie_09:',
-      content: 'First time watching collegiate finals, the production quality is insane!',
-    },
-  ]);
+  const [chatMessages, setChatMessages] = useState<LiveChatMessage[]>([]);
   const [inputMsg, setInputMsg] = useState('');
   const chatEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -352,13 +323,26 @@ export default function LivePage() {
 
                 {/* Scrollable Message Body */}
                 <div className="chat-msgs-body" id="chatMsgsBody">
-                  {chatMessages.map((msg, idx) => (
-                    <div key={msg.id || idx} className="chat-msg-row">
-                      <span className={`chat-badge ${msg.badgeClass}`}>{msg.badge}</span>
-                      <span className="chat-sender">{msg.sender}</span>
-                      <span className="chat-content">{msg.content}</span>
+                  {chatMessages.length === 0 ? (
+                    <div style={{
+                      textAlign: 'center',
+                      color: 'rgba(255,255,255,0.35)',
+                      fontStyle: 'italic',
+                      fontSize: '0.85rem',
+                      padding: '2rem 1rem',
+                      fontFamily: 'var(--font-mono)',
+                    }}>
+                      Chat is quiet... be the first to send a message.
                     </div>
-                  ))}
+                  ) : (
+                    chatMessages.map((msg, idx) => (
+                      <div key={msg.id || idx} className="chat-msg-row">
+                        <span className={`chat-badge ${msg.badgeClass}`}>{msg.badge}</span>
+                        <span className="chat-sender">{msg.sender}</span>
+                        <span className="chat-content">{msg.content}</span>
+                      </div>
+                    ))
+                  )}
                   <div ref={chatEndRef} />
                 </div>
 
