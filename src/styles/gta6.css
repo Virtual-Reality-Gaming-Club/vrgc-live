@@ -1,0 +1,723 @@
+/* ═══════════════════════════════════════════════════════════
+   GTA VI: LEONIDA / VICE CITY DUSK THEME ENGINE
+   Authentic Vice City Sunset Gradients, Neon Noir Tubes,
+   Wanted Level HUD Stars, Palm Silhouettes & Synth Scanner
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes gta-scanner {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+@keyframes gta-pulse-pink {
+  0%, 100% { opacity: 0.8; filter: drop-shadow(0 0 15px rgba(255, 42, 133, 0.7)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 35px rgba(255, 42, 133, 1)); }
+}
+
+@keyframes gta-pulse-cyan {
+  0%, 100% { opacity: 0.7; filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.6)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.95)); }
+}
+
+@keyframes gta-float-hud {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes gta-star-glow {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 6px #f6a800); }
+  50% { transform: scale(1.15); filter: drop-shadow(0 0 14px #ff2a85); }
+}
+
+@keyframes gta-shimmer-sheen {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  100% { transform: translateX(200%) rotate(25deg); }
+}
+
+@keyframes gta-scanlines {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 100%; }
+}
+
+@keyframes gta-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 0.99;
+    filter: drop-shadow(0 0 25px rgba(255, 42, 133, 0.9)) drop-shadow(0 0 60px rgba(255, 42, 133, 0.5));
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.6;
+    filter: none;
+  }
+}
+
+.gta6-page-root {
+  background-color: #06020c;
+  color: #ffffff;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--font-body);
+}
+
+/* CRT Scanline & Grain Texture Overlay */
+.gta-crt-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg,
+    rgba(255, 0, 0, 0.03),
+    rgba(0, 255, 0, 0.01),
+    rgba(0, 0, 255, 0.03)
+  );
+  background-size: 100% 3px, 3px 100%;
+  opacity: 0.75;
+}
+
+/* Vignette border framing the screen like cinematic camera */
+.gta-vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.85), inset 0 0 40px rgba(6, 2, 12, 0.9);
+}
+
+/* Background Video Layer */
+.gta-video-bg-container {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.gta-video-bg-container iframe {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100vw;
+  height: 56.25vw; /* 16:9 ratio */
+  min-height: 100vh;
+  min-width: 177.77vh; /* 16:9 ratio */
+  transform: translate(-50%, -50%) scale(1.15);
+  pointer-events: none;
+  opacity: 0.78;
+  filter: contrast(125%) saturate(145%) brightness(102%);
+  transition: opacity 0.5s ease;
+}
+
+/* Authentic Vice City Dusk Gradient Sky Overlay */
+.gta6-sunset-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: 
+    radial-gradient(ellipse 95% 60% at 50% 0%, rgba(255, 42, 133, 0.2), transparent 75%),
+    radial-gradient(ellipse 70% 50% at 85% 30%, rgba(0, 240, 255, 0.15), transparent 60%),
+    radial-gradient(ellipse 60% 70% at 15% 70%, rgba(123, 47, 255, 0.18), transparent 70%),
+    linear-gradient(180deg, rgba(9, 2, 20, 0.35) 0%, rgba(21, 3, 37, 0.5) 45%, rgba(6, 2, 12, 0.88) 100%);
+}
+
+/* Palm Trees Silhouette Graphic in background */
+.gta-palms-backdrop {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 38vh;
+  pointer-events: none;
+  z-index: 2;
+  background-image: 
+    radial-gradient(ellipse 400px 300px at 15% 100%, rgba(255, 42, 133, 0.15), transparent 70%),
+    radial-gradient(ellipse 450px 320px at 85% 100%, rgba(0, 240, 255, 0.15), transparent 70%);
+  opacity: 0.9;
+}
+
+/* ── GTA 6 VICE CITY SUNSET & INTERACTIVE SCROLL TYPOGRAPHY ── */
+
+@keyframes sunset-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.gta-sunset-title {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(3.2rem, 8vw, 6.8rem);
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+  margin: 0 0 1rem;
+  text-transform: none;
+  background: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #ff6b9d 25%,
+    #ff2a85 50%,
+    #f6a800 75%,
+    #00f0ff 100%
+  );
+  background-size: 250% 250%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sunset-shift 8s ease infinite;
+  filter: drop-shadow(0 0 35px rgba(255, 42, 133, 0.45));
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+
+.gta-sunset-subhead {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin: 0 0 1.25rem;
+  background: linear-gradient(
+    90deg,
+    #ff85a2 0%,
+    #ffb480 50%,
+    #ff6b9d 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: sunset-shift 6s ease infinite;
+  filter: drop-shadow(0 0 25px rgba(255, 133, 162, 0.5));
+}
+
+.gta-sunset-body {
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-weight: 500;
+  color: #ffa3b5;
+  line-height: 1.6;
+  max-width: 860px;
+  margin: 0 auto;
+  letter-spacing: -0.015em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+}
+
+/* Perspective Grid Floor (Vice Highway) */
+.gta6-grid-floor {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40vh;
+  pointer-events: none;
+  z-index: 2;
+  background-image: 
+    linear-gradient(rgba(255, 42, 133, 0.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.16) 1px, transparent 1px);
+  background-size: 60px 40px;
+  transform: perspective(400px) rotateX(65deg);
+  transform-origin: bottom center;
+  mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 15%, transparent 90%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,0.9) 15%, transparent 90%);
+}
+
+/* Wanted Level Star HUD */
+.gta-wanted-star {
+  display: inline-block;
+  color: #f6a800;
+  font-size: 1.25rem;
+  animation: gta-star-glow 2s infinite ease-in-out;
+  cursor: default;
+}
+
+/* Vice City Neon Card */
+.gta-card {
+  background: linear-gradient(145deg, rgba(24, 5, 42, 0.88) 0%, rgba(11, 2, 22, 0.96) 100%);
+  border: 1px solid rgba(255, 42, 133, 0.45);
+  box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.85), 0 0 25px rgba(255, 42, 133, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(14px);
+}
+
+.gta-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(0, 240, 255, 0.8);
+  box-shadow: 0 20px 45px -10px rgba(0, 240, 255, 0.35), 0 0 30px rgba(0, 240, 255, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Vice City Neon Script Logo Accent */
+.gta-neon-flicker {
+  animation: gta-flicker 5s infinite;
+}
+
+/* Hero Featured Card on /events */
+.gta-featured-card {
+  background: linear-gradient(145deg, rgba(32, 6, 54, 0.9) 0%, rgba(13, 2, 25, 0.95) 100%);
+  border: 2px solid #ff2a85;
+  box-shadow: 0 0 35px rgba(255, 42, 133, 0.3), inset 0 0 20px rgba(0, 240, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.gta-featured-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  border-color: #00f0ff;
+  box-shadow: 0 0 50px rgba(0, 240, 255, 0.5), inset 0 0 25px rgba(255, 42, 133, 0.25);
+}
+
+.gta-featured-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 40%,
+    rgba(255, 255, 255, 0.15) 50%,
+    transparent 60%
+  );
+  transform: rotate(25deg);
+  animation: gta-shimmer-sheen 6s infinite ease-in-out;
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GTA VI FLAGSHIP SPOTLIGHT TILE ON /events
+   ═══════════════════════════════════════════════════════════ */
+
+.gta-spotlight-tile-wrap {
+  width: 100%;
+  position: relative;
+  margin-bottom: 4rem;
+}
+
+.gta-spotlight-tile {
+  display: block;
+  background-color: #0b0216;
+  background-image: 
+    linear-gradient(90deg, rgba(8, 1, 14, 0.96) 0%, rgba(12, 2, 22, 0.92) 42%, rgba(12, 2, 22, 0.55) 70%, rgba(8, 1, 14, 0.2) 100%),
+    url('/gta6/jasonlucia.jpg');
+  background-size: cover;
+  background-position: right 20% center;
+  background-repeat: no-repeat;
+  border: 2px solid #ff2a85;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(255, 42, 133, 0.35), inset 0 0 30px rgba(0, 240, 255, 0.1);
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(16px);
+}
+
+.gta-spotlight-tile:hover {
+  transform: translateY(-5px);
+  border-color: #00f0ff;
+  box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9), 0 0 65px rgba(0, 240, 255, 0.5), inset 0 0 40px rgba(255, 42, 133, 0.2);
+}
+
+.gta-spotlight-tile::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 42%,
+    rgba(255, 255, 255, 0.12) 50%,
+    transparent 58%
+  );
+  transform: rotate(25deg);
+  animation: gta-shimmer-sheen 7s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.gta-spotlight-content {
+  padding: clamp(2.25rem, 4.2vw, 3.8rem);
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+  gap: 1.75rem;
+  min-height: 440px;
+  position: relative;
+  z-index: 4;
+}
+
+@media (max-width: 900px) {
+  .gta-spotlight-tile {
+    background-image: 
+      linear-gradient(180deg, rgba(8, 1, 14, 0.95) 0%, rgba(12, 2, 22, 0.92) 50%, rgba(8, 1, 14, 0.5) 100%),
+      url('/gta6/jasonlucia.jpg');
+    background-position: center top;
+  }
+  .gta-spotlight-content {
+    max-width: 100%;
+    padding: 2rem 1.5rem;
+    min-height: auto;
+  }
+}
+
+/* Mission Thumbnail Pills */
+.gta-mission-pills {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.gta-mission-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.4rem 0.8rem 0.4rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(18, 3, 32, 0.85);
+  border: 1px solid rgba(255, 42, 133, 0.35);
+  transition: all 0.25s ease;
+}
+
+.gta-mission-pill:hover {
+  border-color: #00f0ff;
+  background: rgba(28, 5, 50, 0.95);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+}
+
+.gta-mission-thumb {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #ff2a85;
+}
+
+.gta-mission-txt {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.gta-specs-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+}
+
+.gta-spec-pill {
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  background: rgba(14, 3, 26, 0.8);
+  border: 1px solid rgba(255, 42, 133, 0.28);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  transition: border-color 0.25s ease, background-color 0.25s ease;
+}
+
+.gta-spec-pill:hover {
+  border-color: rgba(0, 240, 255, 0.6);
+  background: rgba(20, 4, 36, 0.9);
+}
+
+.gta-spec-pill .spec-lbl {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: #ff85a2;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.gta-spec-pill .spec-val {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+@media (max-width: 960px) {
+  .gta-spotlight-tile {
+    grid-template-columns: 1fr;
+  }
+  .gta-spotlight-media {
+    min-height: 280px;
+    order: -1;
+  }
+  .gta-spotlight-media-scrim {
+    background: linear-gradient(0deg, rgba(10, 2, 18, 0.95) 0%, transparent 100%);
+  }
+}
+
+/* Vice Neon Button */
+.gta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  background: linear-gradient(135deg, #ff2a85 0%, #c026d3 50%, #00f0ff 100%);
+  background-size: 200% 200%;
+  color: #ffffff !important;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.08em;
+  padding: 0.95rem 2.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 25px rgba(255, 42, 133, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.gta-btn-primary:hover {
+  background-position: right center;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 0 40px rgba(0, 240, 255, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.gta-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: rgba(18, 4, 32, 0.75);
+  color: #00f0ff !important;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  padding: 0.9rem 1.8rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.gta-btn-secondary:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: #00f0ff;
+  color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Radio Station Ticker / Vice FM badge */
+.gta-radio-ticker {
+  background: rgba(12, 2, 22, 0.85);
+  border: 1px solid rgba(255, 42, 133, 0.35);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: #f6a800;
+}
+
+/* Authentic Vice City Slanted Ribbon Badge */
+.gta-badge-slant {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.45rem 1.4rem;
+  background: linear-gradient(90deg, #ff2a85 0%, #a855f7 100%);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transform: skewX(-12deg);
+  box-shadow: 0 0 25px rgba(255, 42, 133, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.gta-badge-slant > * {
+  transform: skewX(12deg);
+}
+
+/* Vice City Palm Leaf SVG silhouette backdrop */
+.gta-palm-left, .gta-palm-right {
+  position: fixed;
+  bottom: -40px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.18;
+  filter: drop-shadow(0 0 25px rgba(255, 42, 133, 0.3));
+}
+.gta-palm-left {
+  left: -60px;
+  width: 320px;
+  transform: rotate(15deg);
+}
+.gta-palm-right {
+  right: -60px;
+  width: 340px;
+  transform: rotate(-15deg) scaleX(-1);
+}
+
+/* Wanted Level Badge Indicator */
+.gta-wanted-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  background: rgba(14, 2, 25, 0.9);
+  padding: 0.5rem 1.3rem;
+  border-radius: 999px;
+  border: 1px solid rgba(246, 168, 0, 0.4);
+  box-shadow: 0 0 25px rgba(246, 168, 0, 0.2);
+}
+
+/* Sound indicator audio waves */
+.gta-audio-wave {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 16px;
+}
+.gta-audio-bar {
+  width: 3px;
+  background: #ff2a85;
+  border-radius: 2px;
+  animation: gta-audio-bounce 0.8s ease infinite alternate;
+}
+.gta-audio-bar:nth-child(2) { animation-delay: 0.2s; height: 14px; background: #00f0ff; }
+.gta-audio-bar:nth-child(3) { animation-delay: 0.4s; height: 10px; background: #f6a800; }
+.gta-audio-bar:nth-child(4) { animation-delay: 0.15s; height: 16px; background: #c084fc; }
+
+/* ═══════════════════════════════════════════════════════════
+   AUTHENTIC ROCKSTAR GAMES LOGO REVEAL SEQUENCE
+   Signature cinematic pitch-black intro, Rockstar emblem reveal
+   with slow dramatic scale-up, lens glow & flash dissolve
+   ═══════════════════════════════════════════════════════════ */
+
+@keyframes rstar-logo-reveal {
+  0% {
+    opacity: 0;
+    transform: scale(0.78);
+    filter: brightness(0) blur(12px) drop-shadow(0 0 0px transparent);
+  }
+  30% {
+    opacity: 0.85;
+    filter: brightness(1.3) blur(2px) drop-shadow(0 0 45px rgba(246, 168, 0, 0.8));
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+    filter: brightness(1) blur(0px) drop-shadow(0 0 35px rgba(246, 168, 0, 0.6)) drop-shadow(0 0 70px rgba(255, 42, 133, 0.4));
+  }
+  85% {
+    opacity: 1;
+    transform: scale(1.05);
+    filter: brightness(1.05) blur(0px) drop-shadow(0 0 50px rgba(246, 168, 0, 0.7));
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.15);
+    filter: brightness(2) blur(8px) drop-shadow(0 0 80px rgba(255, 255, 255, 1));
+  }
+}
+
+@keyframes rstar-wordmark-fade {
+  0% { opacity: 0; transform: translateY(12px); letter-spacing: 0.5em; }
+  35%, 80% { opacity: 0.95; transform: translateY(0); letter-spacing: 0.35em; }
+  100% { opacity: 0; transform: translateY(-8px); letter-spacing: 0.45em; }
+}
+
+@keyframes rstar-fade-out {
+  0% { opacity: 1; pointer-events: all; }
+  100% { opacity: 0; pointer-events: none; visibility: hidden; }
+}
+
+.rstar-loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background-color: #000000;
+  color: #ffffff;
+  overflow: hidden;
+  user-select: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+}
+
+.rstar-loading-screen.fading-out {
+  animation: rstar-fade-out 0.8s forwards ease-in-out;
+}
+
+/* Authentic Rockstar Logo Reveal Stage */
+.rstar-logo-stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.rstar-standalone-img {
+  width: clamp(140px, 18vw, 210px);
+  height: auto;
+  animation: rstar-logo-reveal 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity, filter;
+}
+
+.rstar-games-wordmark {
+  margin-top: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  letter-spacing: 0.35em;
+  color: #ffffff;
+  text-transform: uppercase;
+  animation: rstar-wordmark-fade 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Skip/Enter Button */
+.rstar-skip-pill {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  z-index: 20;
+  padding: 0.45rem 1.1rem;
+  border-radius: 999px;
+  background: rgba(15, 3, 28, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+}
+
+.rstar-skip-pill:hover {
+  background: rgba(255, 42, 133, 0.4);
+  border-color: #ff2a85;
+  box-shadow: 0 0 20px rgba(255, 42, 133, 0.6);
+}

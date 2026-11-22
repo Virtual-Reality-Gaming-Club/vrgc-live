@@ -5,10 +5,11 @@ import '@/components/DriftWall.css';
 import '@/components/ScrollFloat.css';
 import '@/components/ScrollVelocity.css';
 import '@/components/OptionWheel.css';
-import '@/components/RadioDial.css';
 import '@/components/StaggeredMenu.css';
 import '@/styles/fixture-generator.css';
-import { Header, Footer, RadioDial, PageTransitionLoader } from '@/components';
+import '@/styles/gta6.css';
+import '@/styles/ticket.css';
+import { Header, Footer, PageTransitionLoader } from '@/components';
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -76,7 +77,6 @@ export default function App({ Component, pageProps }: AppProps) {
       <PageTransitionLoader />
       <Header />
       <Component {...pageProps} />
-      <RadioDial />
       <Footer />
     </>
   );

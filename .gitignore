@@ -32,9 +32,23 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# local scripts / scratch
+scratch/
+*.local.js
+*.local.ts
+
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# skills & agents
+.skills/
+skills/
+_skills/
+.agents/
+.codex/
+skills-lock.json

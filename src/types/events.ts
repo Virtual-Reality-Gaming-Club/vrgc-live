@@ -159,6 +159,18 @@ export const EVENT_STATUS_CONFIG: Record<
 
 export const MOCK_PUBLIC_EVENTS: ClubEvent[] = [
   {
+    id: 'event-gta6-showdown-2026',
+    name: 'GTA VI: Vice City Campus Showdown',
+    description: 'Flagship collegiate launch festival featuring 4-player Port Gellhorn Heist Time-Attacks, Ocean Drive direct-drive racing wheel time-trials, and 4K spatial laser showcases. ₹30,000 bounty pool.',
+    venue: 'Central Auditorium & Spatial Lab (Lab 304)',
+    eventDate: '2026-12-19',
+    eventTime: '17:00 IST onwards',
+    eventType: 'LAN Battle',
+    registrationLink: '/events/gta6',
+    status: 'upcoming',
+    createdAt: '2026-11-20T12:00:00Z',
+  },
+  {
     id: 'event-valorant-2026',
     name: 'VRGC Valorant Campus Championship 2026',
     description: 'Annual 5v5 collegiate tactical shooter LAN tournament. Teams battle across Ascent, Haven, and Bind for a prize pool of ₹25,000 and the championship trophy.',
