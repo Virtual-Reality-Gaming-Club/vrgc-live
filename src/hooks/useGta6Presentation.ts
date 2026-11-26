@@ -9,34 +9,36 @@ function smooth(value: number) {
   return progress * progress * (3 - 2 * progress);
 }
 
-export function useGta6Presentation(heroShotCount: number) {
+export function useGta6Presentation(introActive: boolean) {
   const pageRef = useRef<HTMLDivElement>(null);
   const heroRef = useRef<HTMLElement>(null);
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const reelRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
-  const [heroIndex, setHeroIndex] = useState(0);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero) return;
+    const video = heroVideoRef.current;
+    if (!hero || !video) return;
 
     const reducedMotion = window.matchMedia(reducedMotionQuery);
-    let heroVisible = true;
-    let interval: number | undefined;
+    let heroVisible = false;
 
     const syncPlayback = () => {
-      window.clearInterval(interval);
-      const stop = paused || reducedMotion.matches || !heroVisible || document.hidden;
+      const stop = introActive || paused || reducedMotion.matches || !heroVisible || document.hidden;
       hero.classList.toggle(styles.motionPaused, stop);
-      if (!stop) {
-        interval = window.setInterval(() => setHeroIndex((index) => (index + 1) % heroShotCount), 7200);
+      if (stop) {
+        video.pause();
+      } else {
+        // Keep the poster visible if the browser cannot play the background.
+        void video.play().catch(() => {});
       }
     };
 
     const observer = new IntersectionObserver(([entry]) => {
-      heroVisible = entry.isIntersecting;
+      heroVisible = entry.isIntersecting && entry.intersectionRatio >= 0.2;
       syncPlayback();
     }, { threshold: 0.2 });
 
@@ -49,9 +51,9 @@ export function useGta6Presentation(heroShotCount: number) {
       observer.disconnect();
       document.removeEventListener('visibilitychange', syncPlayback);
       reducedMotion.removeEventListener('change', syncPlayback);
-      window.clearInterval(interval);
+      video.pause();
     };
-  }, [heroShotCount, paused]);
+  }, [introActive, paused]);
 
   useEffect(() => {
     const page = pageRef.current;
@@ -145,5 +147,5 @@ export function useGta6Presentation(heroShotCount: number) {
     window.scrollTo({ top: reelTop + travel * (index + 0.5) / sceneCount, behavior: 'instant' });
   };
 
-  return { pageRef, heroRef, reelRef, stageRef, heroIndex, sceneIndex, paused, togglePaused: () => setPaused((value) => !value), selectScene };
+  return { pageRef, heroRef, heroVideoRef, reelRef, stageRef, sceneIndex, paused, togglePaused: () => setPaused((value) => !value), selectScene };
 }

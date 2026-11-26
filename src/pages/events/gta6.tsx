@@ -13,7 +13,6 @@ const countdownUnits = ['days', 'hours', 'minutes', 'seconds'] as const;
 const introDuration = 2600;
 const introFadeDuration = 800;
 
-const heroShots = ['coast.jpg', 'waterfront.jpg', 'sunset.jpg'];
 const scenes = [
   { image: 'skyline.jpg', word: 'WELCOME', label: 'City lights', tone: '' },
   { image: 'sunset.jpg', word: 'TO', label: 'Neon horizon', tone: styles.warm },
@@ -48,8 +47,8 @@ function playTheme(theme: HTMLAudioElement | null) {
 
 export default function GTA6EventPage() {
   const [timeLeft, setTimeLeft] = useState(emptyCountdown);
-  const presentation = useGta6Presentation(heroShots.length);
   const [intro, setIntro] = useState<'playing' | 'fading' | 'done'>('playing');
+  const presentation = useGta6Presentation(intro !== 'done');
   const [themePlaying, setThemePlaying] = useState(false);
   const themeRef = useRef<HTMLAudioElement>(null);
   const introButtonRef = useRef<HTMLButtonElement>(null);
@@ -260,13 +259,17 @@ export default function GTA6EventPage() {
 
         <main id="home">
           <section className={styles.hero} ref={presentation.heroRef} aria-labelledby="hero-title">
-            <div className={styles.heroFilm} aria-hidden="true">
-              {heroShots.map((image, index) => (
-                <div key={image} className={`${styles.heroShot} ${index === presentation.heroIndex ? styles.active : ''}`}>
-                  <img src={`${assets}/${image}`} width={3840} height={2160} alt="" fetchPriority={index === 0 ? 'high' : 'low'} />
-                </div>
-              ))}
-            </div>
+            <video
+              ref={presentation.heroVideoRef}
+              className={styles.heroVideo}
+              src="/events/gta6bg.mp4"
+              poster={`${assets}/coast.jpg`}
+              aria-hidden="true"
+              preload="none"
+              muted
+              loop
+              playsInline
+            />
             <div className={styles.heroOverlay} />
             <div className={styles.heroInner}>
               <p className={`${styles.introLabel} ${styles.heroEnter}`}>
