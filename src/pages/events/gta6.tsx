@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { SamvityaPassHolder, GeneratedGtaTicket } from '@/types/samvitya';
@@ -10,6 +10,8 @@ const assets = '/gta6/event-ui';
 const eventDate = '2026-12-04T10:00:00+05:30';
 const emptyCountdown = { days: 0, hours: 0, minutes: 0, seconds: 0, complete: false };
 const countdownUnits = ['days', 'hours', 'minutes', 'seconds'] as const;
+const introDuration = 2600;
+const introFadeDuration = 800;
 
 const heroShots = ['coast.jpg', 'waterfront.jpg', 'sunset.jpg'];
 const scenes = [
@@ -39,9 +41,19 @@ const missionTracks = [
   },
 ];
 
+function playTheme(theme: HTMLAudioElement | null) {
+  // Autoplay may require a gesture. The intro and sound button also offer playback.
+  void theme?.play().catch(() => {});
+}
+
 export default function GTA6EventPage() {
   const [timeLeft, setTimeLeft] = useState(emptyCountdown);
   const presentation = useGta6Presentation(heroShots.length);
+  const [intro, setIntro] = useState<'playing' | 'fading' | 'done'>('playing');
+  const [themePlaying, setThemePlaying] = useState(false);
+  const themeRef = useRef<HTMLAudioElement>(null);
+  const introButtonRef = useRef<HTMLButtonElement>(null);
+  const soundButtonRef = useRef<HTMLButtonElement>(null);
 
   // Verification & Ticket Generation State
   const [isVerifying, setIsVerifying] = useState(false);
@@ -53,6 +65,48 @@ export default function GTA6EventPage() {
   const [chosenSlot, setChosenSlot] = useState('Slot 1: 17:00 - 18:30 IST');
   const [isGeneratingTicket, setIsGeneratingTicket] = useState(false);
   const [activeTicket, setActiveTicket] = useState<GeneratedGtaTicket | null>(null);
+
+  useEffect(() => {
+    if (intro === 'done') return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIntro('done');
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      if (intro === 'playing') {
+        setIntro('fading');
+      } else {
+        if (document.activeElement === introButtonRef.current) {
+          soundButtonRef.current?.focus({ preventScroll: true });
+        }
+        setIntro('done');
+      }
+    }, intro === 'playing' ? introDuration : introFadeDuration);
+
+    return () => window.clearTimeout(timeout);
+  }, [intro]);
+
+  useEffect(() => {
+    const theme = themeRef.current;
+    playTheme(theme);
+    return () => theme?.pause();
+  }, []);
+
+  const skipIntro = () => {
+    if (intro !== 'playing') return;
+    playTheme(themeRef.current);
+    setIntro('fading');
+  };
+
+  const toggleTheme = () => {
+    const theme = themeRef.current;
+    if (!theme) return;
+
+    if (theme.paused) playTheme(theme);
+    else theme.pause();
+  };
 
   useEffect(() => {
     const targetDate = Date.parse(eventDate);
@@ -147,7 +201,35 @@ export default function GTA6EventPage() {
         <meta name="theme-color" content="#0c0c10" />
       </Head>
 
-      <div className={styles.page} ref={presentation.pageRef}>
+      <div className={styles.page} ref={presentation.pageRef} data-intro-active={intro !== 'done'}>
+        <audio
+          ref={themeRef}
+          src="/events/theme_song.mp3"
+          preload="none"
+          loop
+          onPlay={() => setThemePlaying(true)}
+          onPause={() => setThemePlaying(false)}
+          onError={() => setThemePlaying(false)}
+        />
+        {intro !== 'done' && (
+          <button
+            ref={introButtonRef}
+            className={`${styles.introScreen} rstar-loading-screen no-print ${intro === 'fading' ? 'fading-out' : ''}`}
+            type="button"
+            onClick={skipIntro}
+            tabIndex={intro === 'fading' ? -1 : 0}
+          >
+            <span className="rstar-logo-stage">
+              <img
+                className={`${styles.introLogo} rstar-standalone-img`}
+                src="/gta6/gta6_official_logo.png"
+                alt="Grand Theft Auto VI"
+                fetchPriority="high"
+              />
+            </span>
+            <span className="rstar-skip-pill">{themePlaying ? 'Skip intro' : 'Skip intro and play theme'}</span>
+          </button>
+        )}
         <a className={styles.skip} href="#experience">Skip to event details</a>
         <header className={styles.header}>
           <a className={styles.brands} href="#home" aria-label="VIT Bhopal and VRGC">
@@ -160,7 +242,20 @@ export default function GTA6EventPage() {
             <a href="#city">Explore Leonida</a>
             <a href="#countdown">Countdown</a>
           </nav>
-          <a className={`${styles.button} ${styles.headerButton}`} href="#pass">Get your pass</a>
+          <div className={styles.headerActions}>
+            <button
+              ref={soundButtonRef}
+              className={styles.soundToggle}
+              type="button"
+              aria-label="GTA VI theme music"
+              aria-pressed={themePlaying}
+              title={themePlaying ? 'Pause theme music' : 'Play theme music'}
+              onClick={toggleTheme}
+            >
+              <span className={styles.soundIcon} aria-hidden="true">♫</span>
+            </button>
+            <a className={`${styles.button} ${styles.headerButton}`} href="#pass">Get your pass</a>
+          </div>
         </header>
 
         <main id="home">
@@ -175,7 +270,7 @@ export default function GTA6EventPage() {
             <div className={styles.heroOverlay} />
             <div className={styles.heroInner}>
               <p className={`${styles.introLabel} ${styles.heroEnter}`}>
-                <span className={styles.neonLine} aria-hidden="true" /> VRGC presents · Samvitya 2026
+                <span className={styles.neonLine} aria-hidden="true" /> VIT Bhopal presents · Samvitya 2026
               </p>
               <h1 className={styles.heroTitle} id="hero-title" aria-label="Vice City">
                 {['VICE', 'CITY'].map((word) => (

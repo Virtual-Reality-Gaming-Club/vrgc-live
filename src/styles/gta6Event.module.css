@@ -42,6 +42,12 @@
 .srOnly { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .skip { position: fixed; z-index: 99; top: -80px; left: 10px; background: white; color: black; padding: 12px; }
 .skip:focus { top: 5px; }
+.introScreen { width: 100%; height: 100%; }
+.introScreen .introLogo { width: min(85vw, clamp(280px, 45vw, 560px)); }
+.introScreen:focus-visible :global(.rstar-skip-pill) { outline: 3px solid var(--cyan); outline-offset: 4px; }
+.page[data-intro-active="true"] .hero .titleFace,
+.page[data-intro-active="true"] .hero .heroEnter,
+.page[data-intro-active="true"] .heroShot.active img { animation-play-state: paused; }
 .header {
   position: sticky; top: 0; z-index: 10; height: var(--header-height); padding: 0 var(--edge);
   display: flex; justify-content: space-between; align-items: center; gap: 20px;
@@ -54,6 +60,29 @@
 .header nav { gap: clamp(22px, 3vw, 48px); }
 .header nav a { font-size: 15px; font-weight: 600; }
 .header nav a:hover, .textLink:hover, .footer a:hover { color: var(--accent); }
+.headerActions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.soundToggle {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid #a9a7af;
+  color: var(--paper);
+}
+.soundToggle[aria-pressed="true"] { color: var(--accent); border-color: var(--accent); }
+.soundToggle:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.soundIcon { position: relative; font: 1.25rem/1 var(--body); }
+.soundToggle[aria-pressed="false"] .soundIcon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -3px;
+  right: -3px;
+  height: 1px;
+  background: currentColor;
+  box-shadow: 0 1px var(--ink);
+  transform: rotate(-45deg);
+}
 .button {
   display: inline-flex; justify-content: center; align-items: center; min-height: 50px;
   border: 1px solid transparent; border-radius: 0; background: var(--accent); color: #17151d;
@@ -300,8 +329,10 @@
 .motionReady .ticketWrap.reveal { opacity: 0; transform: translateY(35px); transition: opacity .8s ease, transform .9s ease; }
 .motionReady .ticketWrap.reveal.inView { opacity: 1; transform: translateY(0); }
 @media (max-width: 950px) {
-  .header { gap: 15px; }
-  .header nav { gap: 18px; }
+  .header { gap: 15px; padding-inline: clamp(20px, 3vw, 35px); }
+  .brands { gap: 14px; }
+  .header nav { gap: clamp(10px, 1.8vw, 18px); }
+  .header nav a { font-size: 14px; }
   .hero { min-height: max(600px, calc(100svh - var(--header-height))); }
   .heroTitle { font-size: clamp(55px, 13vw, 125px); }
   .experience, .accessGrid { gap: 34px; }
@@ -345,10 +376,17 @@
   .ticketGate { flex-wrap: wrap; }
   .footer { flex-wrap: wrap; }
 }
+@media (max-width: 380px) {
+  .header { padding-inline: 14px; gap: 10px; }
+  .brands { gap: 8px; }
+  .brands .vit { width: 70px; }
+  .brands .vrgc { width: 32px; height: 32px; }
+  .headerActions { gap: 8px; }
+}
 @media (prefers-reduced-motion: reduce) {
   :global(html):has(.page) { scroll-behavior: auto; }
   .page *, .page *::before, .page *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
-  .motionToggle { display: none; }
+  .motionToggle, .page .introScreen { display: none; }
   .heroTitle { transform: none; }
   .heroShot img, .reelScene img, .ticket { transform: none; }
   .motionReady .reveal .lineReveal > span, .motionReady .reveal > p, .motionReady .reveal > h3,
