@@ -11,7 +11,9 @@ import '@/styles/gta6.css';
 import '@/styles/ticket.css';
 import { Header, Footer, PageTransitionLoader } from '@/components';
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps, router }: AppProps) {
+  const hasEventLayout = router.pathname === '/events/gta6';
+
   return (
     <>
       <Head>
@@ -75,9 +77,9 @@ export default function App({ Component, pageProps }: AppProps) {
         />
       </Head>
       <PageTransitionLoader />
-      <Header />
+      {!hasEventLayout && <Header />}
       <Component {...pageProps} />
-      <Footer />
+      {!hasEventLayout && <Footer />}
     </>
   );
 }
